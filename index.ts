@@ -1,3 +1,12 @@
+/**
+ * This program generates 100 random numbers with a mean of 75
+ * and a standard deviation of 10.
+ *
+ * By:      Mr Coxall
+ * Version: 1.0
+ * Since:   2020-01-01
+ */
+
 import { writeFileSync } from "fs"
 
 function generateGaussian(mean: number ,std: number){
@@ -15,7 +24,7 @@ function generateGaussian(mean: number ,std: number){
 let sum = 0
 let numbers = ''
 
-// Generate 10,000 Gaussian random numbers
+// Generate 100 Gaussian random numbers
 for (var counter = 0; counter < 100; counter++) {
   const normalNumber = generateGaussian(75, 10)
   sum = sum + normalNumber
