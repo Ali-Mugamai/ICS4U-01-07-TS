@@ -7,67 +7,69 @@
  * Since:   2020-01-01
  */
 
-import { writeFileSync } from "fs"
+import { writeFileSync, readFileSync } from 'fs'
 
-function generateGaussian(mean: number ,std: number){
+/**
+ * generateGaussian() function - generates suitable number
+ *
+ * @param {number} mean - average number to generate
+ * @param {number} deviation - deviation from the mean
+ * @returns {number} randomNum - random number generated
+ */
+function generateGaussian(mean: number, deviation: number): number {
   // https://discourse.psychopy.org/t/javascript-gaussian-function/17724/2
-  var _2PI = Math.PI * 2;
-  var u1 = Math.random();
-  var u2 = Math.random();
-  
-  var z0 = Math.sqrt(-2.0 * Math.log(u1)) * Math.cos(_2PI * u2);
-  var z1 = Math.sqrt(-2.0 * Math.log(u1)) * Math.sin(_2PI * u2);
+  const _2PI = Math.PI * 2
+  const num1 = Math.random()
+  const num2 = Math.random()
 
-  return z0 * std + mean;
-}
+  let randomNum = Math.sqrt(-2.0 * Math.log(num1)) * Math.cos(_2PI * num2)
+  randomNum = randomNum * deviation + mean
 
-let sum = 0
-let numbers = ''
-
-// Generate 100 Gaussian random numbers
-for (var counter = 0; counter < 100; counter++) {
-  const normalNumber = generateGaussian(75, 10)
-  sum = sum + normalNumber
-  numbers = numbers + normalNumber + '\n'
-  console.log(normalNumber)
-}
-
-console.log("\n")
-console.log(sum / counter)
-console.log("\n")
-console.log(numbers)
-writeFileSync("NormalNumbers.txt", numbers)
-
-console.log("Done.")
-
-  for (let y = 1; y <= assArr.length - 1; y++) {
-    arr[y][0] = arrAss[y]
-    for (let x = 1; x <= namesArr.length - 1; x++) {
-      arr[y][x] = Math.round(generateGaussian(75, 10)).toString()
-    }
-  
-
-  return arr
-}
-
-const namesFile = readFileSync('./Students.txt', 'utf-8')
-const assFile = readFileSync('./Assignments.txt', 'utf-8')
-
-const arrNames = namesFile.toString().replace(/\r\n/g, '\n').split('\n')
-arrNames.pop()
-const arrAss = assFile.toString().replace(/\r\n/g, '\n').split('\n')
-arrAss.pop()
-
-const returned: string[][] = grader(arrAss, arrNames)
-
-let exportString: string = ''
-
-for (let y = 0; y < returned.length; y++) {
-  for (let x = 0; x < returned[0].length; x++) {
-    exportString += returned[y][x]
-    exportString += ','
+  if (randomNum > 100) {
+    randomNum = 100
   }
-  exportString += '\n'
+  return randomNum
 }
 
-writeFileSync('table.csv', exportString)
+/**
+ * generate 2d array
+ *
+ * @param {string} students - classmates to be graded
+ * @param {string} units - individual units and assignments
+ */
+function studentUnitArray(students: String[], units: String[]): void {
+  const unitLength = units.length - 1
+  const table = []
+  table.push(units)
+
+  for (let count = 0; count < students.length; count++) {
+    const tempTable = []
+    tempTable.push(students[count])
+
+    for (let count2 = 0; count2 <= unitLength; count2++) {
+      tempTable.push(Math.round(generateGaussian(75, 10)))
+    }
+    table.push(tempTable)
+  }
+  const formattedTable = table.join(',\n')
+  writeFileSync('marks1.csv', formattedTable)
+}
+
+// file path for students
+const studentFile = readFileSync('students3.txt', 'utf-8')
+const studentList = studentFile.split(/\r?\n/)
+studentList.pop()
+
+// file path for units
+const unitFile = readFileSync('unit3.txt', 'utf-8')
+const unitList = unitFile.split(/\r?\n/)
+unitList.pop()
+
+// organization
+studentUnitArray(studentList, unitList)
+
+const csv = readFileSync('marks1.csv', 'utf-8')
+console.log('')
+console.log(csv)
+
+console.log('\nDone.')
