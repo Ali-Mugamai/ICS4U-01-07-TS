@@ -2,9 +2,9 @@
  * This program generates 100 random numbers with a mean of 75
  * and a standard deviation of 10.
  *
- * By:      Mr Coxall
+ * By:      Ali Mugamai
  * Version: 1.0
- * Since:   2020-01-01
+ * Since:   2024-10-17
  */
 
 import { writeFileSync } from "fs"
