@@ -39,4 +39,3 @@ console.log(numbers)
 writeFileSync("NormalNumbers.txt", numbers)
 
 console.log("Done.")
-
