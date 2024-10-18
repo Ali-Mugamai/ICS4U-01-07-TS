@@ -56,17 +56,17 @@ function studentUnitArray(students: String[], units: String[]): void {
 }
 
 // file path for students
-const studentFile = readFileSync('students3.txt', 'utf-8')
+const studentFile = readFileSync('Students.txt', 'utf-8')
 const studentList = studentFile.split(/\r?\n/)
 studentList.pop()
 
 // file path for units
-const unitFile = readFileSync('unit3.txt', 'utf-8')
-const unitList = unitFile.split(/\r?\n/)
-unitList.pop()
+const assignmentFile = readFileSync('Assignments.txt', 'utf-8')
+const assignmentList = assignmentFile.split(/\r?\n/)
+assignmentList.pop()
 
 // organization
-studentUnitArray(studentList, unitList)
+studentUnitArray(studentList, assignmentList)
 
 const csv = readFileSync('marks1.csv', 'utf-8')
 console.log('')
