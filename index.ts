@@ -39,6 +39,7 @@ console.log(numbers)
 writeFileSync("NormalNumbers.txt", numbers)
 
 console.log("Done.")
+<<<<<<< HEAD
 
 <<<<<<< HEAD
   for (let y = 1; y <= assArr.length - 1; y++) {
@@ -74,3 +75,5 @@ for (let y = 0; y < returned.length; y++) {
 writeFileSync('table(3).csv', exportString)
 =======
 >>>>>>> 986ea75569a6643a91d99e144fd63bec6397ffd5
+=======
+>>>>>>> 1f7d66058edbbf3e9684854397aaad841ca328be
