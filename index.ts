@@ -44,8 +44,8 @@ function grader(assArr: string[], namesArr: string[]) {
   return arr
 }
 
-const namesFile = readFileSync('./names(3).txt', 'utf-8')
-const assFile = readFileSync('./unit(3).txt', 'utf-8')
+const namesFile = readFileSync('./Students.txt', 'utf-8')
+const assFile = readFileSync('./Assignments.txt', 'utf-8')
 
 const arrNames = namesFile.toString().replace(/\r\n/g, '\n').split('\n')
 arrNames.pop()
