@@ -6,37 +6,62 @@
  * Version: 1.0
  * Since:   2024-10-17
  */
+import { writeFileSync } from 'fs'
+import { readFileSync } from 'fs'
 
-import { writeFileSync } from "fs"
+function generateGaussian(mean: number, std: number) {
+  let _2PI = Math.PI * 2
+  let u1 = Math.random()
+  let u2 = Math.random()
 
-function generateGaussian(mean: number ,std: number){
-  // https://discourse.psychopy.org/t/javascript-gaussian-function/17724/2
-  var _2PI = Math.PI * 2;
-  var u1 = Math.random();
-  var u2 = Math.random();
-  
-  var z0 = Math.sqrt(-2.0 * Math.log(u1)) * Math.cos(_2PI * u2);
-  var z1 = Math.sqrt(-2.0 * Math.log(u1)) * Math.sin(_2PI * u2);
+  let z0 = Math.sqrt(-2.0 * Math.log(u1)) * Math.cos(_2PI * u2)
 
-  return z0 * std + mean;
+  return z0 * std + mean
 }
 
-let sum = 0
-let numbers = ''
-
-// Generate 100 Gaussian random numbers
-for (var counter = 0; counter < 100; counter++) {
-  const normalNumber = generateGaussian(75, 10)
-  sum = sum + normalNumber
-  numbers = numbers + normalNumber + '\n'
-  console.log(normalNumber)
+function makeArray(d1: number, d2: number) {
+  let arr = []
+  for (let i = 0; i < d2; i++) {
+    arr.push(new Array(d1))
+  }
+  return arr
 }
 
-console.log("\n")
-console.log(sum / counter)
-console.log("\n")
-console.log(numbers)
-writeFileSync("NormalNumbers.txt", numbers)
+function grader(assArr: string[], namesArr: string[]) {
+  // Defining array
+  const arr: string[][] = makeArray(namesArr.length + 1, arrAss.length)
 
-console.log("Done.")
+  arr[0] = arrNames
+  arr[0].unshift('')
 
+  for (let y = 1; y <= assArr.length - 1; y++) {
+    arr[y][0] = arrAss[y]
+    for (let x = 1; x <= namesArr.length - 1; x++) {
+      arr[y][x] = Math.round(generateGaussian(75, 10)).toString()
+    }
+  }
+
+  return arr
+}
+
+const namesFile = readFileSync('./names(3).txt', 'utf-8')
+const assFile = readFileSync('./unit(3).txt', 'utf-8')
+
+const arrNames = namesFile.toString().replace(/\r\n/g, '\n').split('\n')
+arrNames.pop()
+const arrAss = assFile.toString().replace(/\r\n/g, '\n').split('\n')
+arrAss.pop()
+
+const returned: string[][] = grader(arrAss, arrNames)
+
+let exportString: string = ''
+
+for (let y = 0; y < returned.length; y++) {
+  for (let x = 0; x < returned[0].length; x++) {
+    exportString += returned[y][x]
+    exportString += ','
+  }
+  exportString += '\n'
+}
+
+writeFileSync('table(3).csv', exportString)
